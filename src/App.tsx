@@ -1,7 +1,7 @@
 import './App.css'
 import {useDispatch, useSelector} from "react-redux";
 import type {AppDispatch, RootState} from "./services/store.ts";
-import {addBook, type TBook} from "./services/slices.ts";
+import {addBook, removeBook, type TBook} from "./services/slices.ts";
 import {useState} from "react";
 
 export type TBookFormState = Omit<TBook, 'id'>
@@ -20,6 +20,9 @@ const onSubmit = (e: React.SubmitEvent) => {
     id: crypto.randomUUID()
   }))
 }
+  const deleteBook = (id: string) => {
+    dispatch(removeBook(id));
+  }
   return (
   <>
     <form onSubmit={onSubmit}>
@@ -33,6 +36,7 @@ const onSubmit = (e: React.SubmitEvent) => {
         <th>ID</th>
         <th>Title</th>
         <th>Author</th>
+        <th>Delete</th>
       </tr>
       </thead>
       <tbody>
@@ -41,6 +45,7 @@ const onSubmit = (e: React.SubmitEvent) => {
             <td>{book.id}</td>
             <td>{book.title}</td>
             <td>{book.author}</td>
+            <button onClick={() => deleteBook(book.id)}>Удалить</button>
           </tr>
       ))}
       </tbody>
