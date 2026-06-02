@@ -45,7 +45,7 @@ const onSubmit = (e: React.SubmitEvent) => {
             <td>{book.id}</td>
             <td>{book.title}</td>
             <td>{book.author}</td>
-            <button onClick={() => deleteBook(book.id)}>Удалить</button>
+            <td><button onClick={() => deleteBook(book.id)}>Delete</button></td>
           </tr>
       ))}
       </tbody>
