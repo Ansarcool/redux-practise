@@ -1,5 +1,5 @@
 import { expect, it, describe} from "vitest";
-import {type Account, deposit, withdraw} from "./util.ts";
+import {type Account, deposit, transfer, withdraw} from "./util.ts";
 
 describe('тесты аккаунта', () => {
     it('счет должен пополниться', () => {
@@ -49,5 +49,36 @@ describe('тесты аккаунта', () => {
         withdraw(bob, 100)
 
         expect(bob.balance).toBe(0)
+    })
+    it('сумма не должна быть отрицательной', () => {
+        const expectedMsg = "Сумма не должна быть отрицательной";
+
+        const bob: Account = {balance: 100, owner: "Bob"};
+        const alex: Account = {balance: 100, owner: "Alex"};
+
+        expect(() => transfer(bob, alex, -100)).toThrow(new Error(expectedMsg));
+        expect(bob.balance).toBe(100);
+        expect(alex.balance).toBe(100)
+    })
+    it('сумма не должна быть отрицательной', () => {
+        const expectedMsg = "недостатного средств на балансе";
+
+        const bob: Account = {balance: 100, owner: "Bob"};
+        const alex: Account = {balance: 100, owner: "Alex"};
+
+        expect(() => transfer(bob, alex, 500)).toThrow(new Error(expectedMsg));
+
+        expect(bob.balance).toBe(100);
+        expect(alex.balance).toBe(100)
+    })
+    it('трансфер должен быть успешным', () => {
+
+        const bob: Account = {balance: 100, owner: "Bob"};
+        const alex: Account = {balance: 100, owner: "Alex"};
+
+        expect(() => transfer(bob, alex, 100));
+
+        expect(bob.balance).toBe(0);
+        expect(alex.balance).toBe(200)
     })
 })
